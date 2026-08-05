@@ -8,22 +8,28 @@ typedef struct s_sim		t_sim;
 typedef struct s_coder		t_coder;
 typedef struct s_dongle		t_dongle;
 
-typedef struct s_dongle
+typedef enum e_scheduler
+{
+	FIFO,
+	EDF
+}	t_scheduler;
+
+/*typedef struct s_dongle
 {
 	pthread_mutex	mutex;
 	long			state_timer;
-}					t_dongle;
+}					t_dongle;*/
 
 typedef struct s_sim
 {
-	int			number_of_coders;    hola me llamo
+	int			number_of_coders;
 	long		time_to_burnout;
 	long		time_to_compile;
 	long		time_to_debug;
 	long		time_to_refactor;
 	int			number_of_compiles_required;
 	long		dongle_cooldown;
-	char		scheduler[5];
+	t_scheduler	scheduler;
 
 	t_dongle	*dongles;
 	t_coder		*coders;
@@ -74,3 +80,21 @@ int	parse_arguments(int argc, char **argv, t_sim *sim);
 
 //	ESTRUCTURA
 //	pthread_mutex_t nombre_del_mutex;
+
+
+/*cada filosofo es un hilo de ejecución
+
+compilar es comer, co
+
+
+mutex recursos compartidos entre hilos
+
+hilos com se inician
+
+data race, race condition
+
+josemi isallnum
+
+usleep son microseguntos pero  me han pedido milisegundos
+
+gettimeofday() DA EN SEGUNDOS desde 1970 epoch inicio de los tiempos para C*/

@@ -11,7 +11,7 @@ int	parse_arguments(int argc, char **argv, t_sim *sim)
 		return (0);
 	}
 }
-//esto es para testear
+
 int	main(int argc, char **argv)
 {
 	t_sim	sim;

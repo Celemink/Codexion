@@ -1,22 +1,22 @@
 NAME = codexion
 CC = cc	
 CFLAGS = -Wall -Wextra -Werror -pthread
-codexion = codexion/libftprintf.a  #CAMBIAR OPCIONALMENTE
+#codexion = codexion/libftprintf.a  #CAMBIAR LUEGO
 
-SRC = #no sabemos aun
+SRC = src/main.c 
 
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(PRINTF):
-	make -C codexion
+#$(PRINTF):
+	#make -C codexion
 
-$(NAME): $(PRINTF) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(PRINTF) -o $(NAME)
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
-%.o: %.c push_swap.h
-	$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.c include/codexion.h
+	$(CC) $(CFLAGS) -I include -c $< -o $@
 
 clean:
 	rm -f $(OBJ)
