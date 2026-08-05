@@ -1,7 +1,14 @@
 #ifndef CODEXION_H
 # define CODEXION_H
 
+#define VALID			1
+#define NOT_NUMERIC		0
+#define NEGATIVE		-1
+
 #include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
 # include <sys/time.h>
 
 typedef struct s_sim		t_sim;
@@ -14,11 +21,18 @@ typedef enum e_scheduler
 	EDF
 }	t_scheduler;
 
-/*typedef struct s_dongle
+typedef enum e_dongle_state
 {
-	pthread_mutex	mutex;
-	long			state_timer;
-}					t_dongle;*/
+	AVAILABLE,
+	IN_USE,
+	COOLDOWN
+}	t_dongle_state;
+
+typedef struct s_dongle
+{
+	pthread_mutex_t	mutex;
+	long			cooldown_start;
+}					t_dongle;
 
 typedef struct s_sim
 {
@@ -48,7 +62,27 @@ typedef struct s_coder
 	t_sim				*general_ref;
 }						t_coder;
 
-int	parse_arguments(int argc, char **argv, t_sim *sim);
+int		parse_arguments(int argc, char **argv, t_sim *sim);
+
+int		validate_arguments(int argc, char **argv);
+int		fill_simulation(char **argv, t_sim *sim);
+
+int		parse_scheduler(char *arg, t_scheduler *scheduler);
+int		is_number(char *str);
+
+int		error(char *message);
+
+long	ft_atol(const char *str);
+void	ft_putendl_fd(char *s, int fd);
+int		ft_strcmp(char *s1, char *s2);
+
+int		init_simulation(t_sim *sim);
+
+int		init_coders(t_sim *sim);
+int		init_dongles(t_sim *sim);
+
+void	free_simulation(t_sim *sim);
+
 
 #endif
 
