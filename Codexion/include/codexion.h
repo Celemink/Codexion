@@ -16,7 +16,7 @@ typedef struct s_dongle
 
 typedef struct s_sim
 {
-	int			number_of_coders;
+	int			number_of_coders;    hola me llamo
 	long		time_to_burnout;
 	long		time_to_compile;
 	long		time_to_debug;
