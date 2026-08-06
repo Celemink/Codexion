@@ -1,16 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   codexion.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lodazzan <lodazzan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/06 17:23:52 by lodazzan          #+#    #+#             */
+/*   Updated: 2026/08/06 17:23:52 by lodazzan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CODEXION_H
 # define CODEXION_H
 
-#define VALID			1
-#define NOT_NUMERIC		0
-#define NEGATIVE		-1
+# define VALID			1
+# define NOT_NUMERIC		0
+# define NEGATIVE		-1
 
-#include <pthread.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <sys/time.h>
-#include <limits.h>
+# include <pthread.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <sys/time.h>
+# include <limits.h>
 
 typedef struct s_sim		t_sim;
 typedef struct s_coder		t_coder;
@@ -54,6 +66,7 @@ typedef struct s_sim
 
 	pthread_mutex_t	print_mutex;
 
+	int				start;
 	int				simulation_over;
 }					t_sim;
 
@@ -63,14 +76,16 @@ typedef struct s_coder
 	int					compile_counter;
 	long				compile_timer;
 	long				last_compilation_timer;
-	
+
 	pthread_t			thread;
 	pthread_mutex_t		state_mutex;
-	
+
 	t_sim				*general_ref;
 }						t_coder;
 
 int		parse_arguments(int argc, char **argv, t_sim *sim);
+
+int		take_dongle(t_dongle *dongle);
 
 int		validate_arguments(int argc, char **argv);
 int		fill_simulation(char **argv, t_sim *sim);
@@ -102,16 +117,13 @@ int		start_simulation(t_sim *sim);
 
 #endif
 
-
 //N threads = N filosofos (tantos threads como filosofos haya)
 
 //· pthread_t - LA CAJA
 //	Crea el hueco donde va a haber un thread
 
-
 //· pthread_create - EL EJECUTOR
 //	Pone a trabajar el hilo
-
 
 //	PARÁMETROS QUE RECIBE
 //	pthread_create(&hilo, NULL, funcion, argumento)
@@ -124,18 +136,15 @@ int		start_simulation(t_sim *sim);
 //		4- ARGUMENTO
 //			Normalmente, la estructura del simulador general, o partes de él
 
-
 //· pthread_mutex_t - EL SEMAFORO
 //	Impide que varios hilos actuen en el mismo codigo a la vez
 
 //	ESTRUCTURA
 //	pthread_mutex_t nombre_del_mutex;
 
-
 /*cada filosofo es un hilo de ejecución
 
 compilar es comer, co
-
 
 mutex recursos compartidos entre hilos
 

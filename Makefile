@@ -9,7 +9,9 @@ SRC =	src/main.c \
 	src/init.c \
 	src/time.c \
 	src/coders/routine.c \
-	src/simulation.c
+	src/simulation.c \
+	src/logger.c \
+	src/destroy.c
 
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

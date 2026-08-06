@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:17:07 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/06 13:17:08 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/06 17:26:13 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ int	parse_scheduler(char *arg, t_scheduler *scheduler)
 
 int	fill_simulation(char **argv, t_sim *sim)
 {
-		sim->number_of_coders = ft_atol(argv[1]);
-		sim->time_to_burnout = ft_atol(argv[2]);
-		sim->time_to_compile = ft_atol(argv[3]);
-		sim->time_to_debug = ft_atol(argv[4]);
-		sim->time_to_refactor = ft_atol(argv[5]);
-		sim->number_of_compiles_required = ft_atol(argv[6]);
-		sim->dongle_cooldown = ft_atol(argv[7]);
-		if (parse_scheduler(argv[8], &sim->scheduler))
-			return (1);
-		return (0);
+	sim->number_of_coders = ft_atol(argv[1]);
+	sim->time_to_burnout = ft_atol(argv[2]);
+	sim->time_to_compile = ft_atol(argv[3]);
+	sim->time_to_debug = ft_atol(argv[4]);
+	sim->time_to_refactor = ft_atol(argv[5]);
+	sim->number_of_compiles_required = ft_atol(argv[6]);
+	sim->dongle_cooldown = ft_atol(argv[7]);
+	if (parse_scheduler(argv[8], &sim->scheduler))
+		return (1);
+	return (0);
 }
 
 int error(char *message)

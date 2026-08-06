@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:16:50 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/06 17:13:48 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/06 17:41:10 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@ int	init_simulation(t_sim *sim)
 		free_simulation(sim);
 		return (1);
 	}
+	sim->start = 0;
 	sim->start_time = get_time_ms();
 	if (pthread_mutex_init(&sim->print_mutex, NULL))
 		return (error("Failed to initialize print mutex."));
 	sim->simulation_over = 0;
-	
-	
 	return (0);
 }
 
@@ -62,37 +61,11 @@ int	init_dongles(t_sim *sim)
 	i = 0;
 	while (i < sim->number_of_coders)
 	{
-		sim->dongles[i].state = AVAILABLE;
-		sim->dongles[i].cooldown_start = 0;
 		if (pthread_mutex_init(&sim->dongles[i].mutex, NULL) != 0)
 			return (error("Failed to initialize dongle mutex."));
+		sim->dongles[i].state = AVAILABLE;
+		sim->dongles[i].cooldown_start = 0;
 		i++;
 	}
 	return (0);
-}
-
-void	free_simulation(t_sim *sim)
-{
-	int	i;
-
-	if (sim->coders)
-	{
-		i = 0;
-		while (i < sim->number_of_coders)
-		{
-			pthread_mutex_destroy(&sim->coders[i].state_mutex);
-			i++;
-		}
-		free(sim->coders);
-	}
-	if (sim->dongles)
-	{
-		i = 0;
-		while (i < sim->number_of_coders)
-		{
-			pthread_mutex_destroy(&sim->dongles[i].mutex);
-			i++;
-		}
-		free(sim->dongles);
-	}
 }

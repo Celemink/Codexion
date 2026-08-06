@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:17:45 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/06 14:48:01 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/06 17:46:12 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	start_simulation(t_sim *sim)
 			return (error("Failed to create thread."));
 		i++;
 	}
+	sim->start_time = get_time_ms();
+	sim->start = 1;
 	i = 0;
 	while (i < sim->number_of_coders)
 	{
