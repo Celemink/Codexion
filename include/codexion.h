@@ -9,7 +9,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-# include <sys/time.h>
+#include <sys/time.h>
+#include <limits.h>
 
 typedef struct s_sim		t_sim;
 typedef struct s_coder		t_coder;
@@ -30,24 +31,31 @@ typedef enum e_dongle_state
 
 typedef struct s_dongle
 {
-	pthread_mutex_t	mutex;
-	long			cooldown_start;
-}					t_dongle;
+	pthread_mutex_t		mutex;
+	t_dongle_state		state;
+	long				cooldown_start;
+}						t_dongle;
 
 typedef struct s_sim
 {
-	int			number_of_coders;
-	long		time_to_burnout;
-	long		time_to_compile;
-	long		time_to_debug;
-	long		time_to_refactor;
-	int			number_of_compiles_required;
-	long		dongle_cooldown;
-	t_scheduler	scheduler;
+	int				number_of_coders;
+	long			time_to_burnout;
+	long			time_to_compile;
+	long			time_to_debug;
+	long			time_to_refactor;
+	int				number_of_compiles_required;
+	long			dongle_cooldown;
+	t_scheduler		scheduler;
 
-	t_dongle	*dongles;
-	t_coder		*coders;
-}				t_sim;
+	t_dongle		*dongles;
+	t_coder			*coders;
+
+	long			start_time;
+
+	pthread_mutex_t	print_mutex;
+
+	int				simulation_over;
+}					t_sim;
 
 typedef struct s_coder
 {
@@ -81,8 +89,16 @@ int		init_simulation(t_sim *sim);
 int		init_coders(t_sim *sim);
 int		init_dongles(t_sim *sim);
 
+void	log_action(t_coder *coder, char *action);
+
 void	free_simulation(t_sim *sim);
 
+long	get_time_ms(void);
+void	precise_sleep(long duration_ms);
+
+void	*coder_routine(void *arg);
+
+int		start_simulation(t_sim *sim);
 
 #endif
 

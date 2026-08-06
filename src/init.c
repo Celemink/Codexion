@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lodazzan <lodazzan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/06 13:16:50 by lodazzan          #+#    #+#             */
+/*   Updated: 2026/08/06 17:13:48 by lodazzan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "codexion.h"
 
 int	init_simulation(t_sim *sim)
@@ -9,6 +21,12 @@ int	init_simulation(t_sim *sim)
 		free_simulation(sim);
 		return (1);
 	}
+	sim->start_time = get_time_ms();
+	if (pthread_mutex_init(&sim->print_mutex, NULL))
+		return (error("Failed to initialize print mutex."));
+	sim->simulation_over = 0;
+	
+	
 	return (0);
 }
 
@@ -45,7 +63,7 @@ int	init_dongles(t_sim *sim)
 	while (i < sim->number_of_coders)
 	{
 		sim->dongles[i].state = AVAILABLE;
-		sim->dongles[i].state_timer = 0;
+		sim->dongles[i].cooldown_start = 0;
 		if (pthread_mutex_init(&sim->dongles[i].mutex, NULL) != 0)
 			return (error("Failed to initialize dongle mutex."));
 		i++;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lodazzan <lodazzan@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/06 13:16:58 by lodazzan          #+#    #+#             */
+/*   Updated: 2026/08/06 13:16:58 by lodazzan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "codexion.h"
 
 int	main(int argc, char **argv)
@@ -8,6 +20,11 @@ int	main(int argc, char **argv)
 		return (1);
 	if (init_simulation(&sim))
 		return (1);
+	if (start_simulation(&sim))
+	{
+		free_simulation(&sim);
+		return (1);
+	}
 	write(1, "bien cele", 9);
 	return (0);
 }
