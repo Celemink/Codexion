@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lodazzan <lodazzan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:16:50 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/06 17:41:10 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/07 13:47:46 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int init_coders(t_sim *sim)
 		sim->coders[i].compile_counter = 0;
 		sim->coders[i].compile_timer = 0;
 		sim->coders[i].last_compilation_timer = 0;
+		sim->coders[i].left_dongle = i;
+		sim->coders[i].right_dongle = (i + 1) % sim->number_of_coders;
 		sim->coders[i].general_ref = sim;
 		if (pthread_mutex_init(&sim->coders[i].state_mutex, NULL) != 0)
 			return (error("Failed to initialize coder mutex."));

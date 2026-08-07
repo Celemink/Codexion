@@ -3,10 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   mutex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lodazzan <lodazzan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/06 13:17:57 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/06 17:27:06 by lodazzan         ###   ########.fr       */
+/*   Created: 2026/08/07 15:43:37 by lodazzan          #+#    #+#             */
+/*   Updated: 2026/08/07 15:43:38 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 

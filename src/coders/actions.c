@@ -1,39 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   destroy.c                                          :+:      :+:    :+:   */
+/*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/07 15:43:47 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/07 15:43:50 by lodazzan         ###   ########.fr       */
+/*   Created: 2026/08/07 15:42:59 by lodazzan          #+#    #+#             */
+/*   Updated: 2026/08/07 15:43:00 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "codexion.h"
-
-void	free_simulation(t_sim *sim)
-{
-	int	i;
-
-	if (sim->coders)
-	{
-		i = 0;
-		while (i < sim->number_of_coders)
-		{
-			pthread_mutex_destroy(&sim->coders[i].state_mutex);
-			i++;
-		}
-		free(sim->coders);
-	}
-	if (sim->dongles)
-	{
-		i = 0;
-		while (i < sim->number_of_coders)
-		{
-			pthread_mutex_destroy(&sim->dongles[i].mutex);
-			i++;
-		}
-		free(sim->dongles);
-	}
-}

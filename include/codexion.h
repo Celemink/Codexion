@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   codexion.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lodazzan <lodazzan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/06 17:23:52 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/06 17:23:52 by lodazzan         ###   ########.fr       */
+/*   Created: 2026/08/07 15:43:07 by lodazzan          #+#    #+#             */
+/*   Updated: 2026/08/07 15:43:07 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CODEXION_H
 
 # define VALID			1
-# define NOT_NUMERIC		0
+# define NOT_NUMERIC	0
 # define NEGATIVE		-1
 
 # include <pthread.h>
@@ -81,17 +81,23 @@ typedef struct s_coder
 	pthread_mutex_t		state_mutex;
 
 	t_sim				*general_ref;
+
+	int					left_dongle;  //el programador solo puede coger el de la derecha o el de la izq
+	int					right_dongle; //tengo que dtereminar por default cual es el mio
 }						t_coder;
 
 int		parse_arguments(int argc, char **argv, t_sim *sim);
 
 int		take_dongle(t_dongle *dongle);
+void	release_dongle(t_dongle *dongle);
+int		take_both_dongles(t_coder *coder);
+void	release_both_dongles(t_coder *coder);
 
 int		validate_arguments(int argc, char **argv);
 int		fill_simulation(char **argv, t_sim *sim);
 
 int		parse_scheduler(char *arg, t_scheduler *scheduler);
-int		is_number(char *str);
+int		is_positive_number(char *str);
 
 int		error(char *message);
 
@@ -114,6 +120,7 @@ void	precise_sleep(long duration_ms);
 void	*coder_routine(void *arg);
 
 int		start_simulation(t_sim *sim);
+
 
 #endif
 

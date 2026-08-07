@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lodazzan <lodazzan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/06 13:17:07 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/06 17:26:13 by lodazzan         ###   ########.fr       */
+/*   Created: 2026/08/07 15:44:21 by lodazzan          #+#    #+#             */
+/*   Updated: 2026/08/07 15:44:26 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
