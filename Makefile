@@ -13,7 +13,9 @@ SRC =	src/main.c \
 	src/sync/dongles.c \
 	src/simulation.c \
 	src/logger.c \
-	src/destroy.c
+	src/destroy.c \
+	src/sync/cooldown.c \
+	src/sync/mutex_utils.c
 
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

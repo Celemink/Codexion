@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:16:50 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/07 13:47:46 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/10 17:26:38 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ int	init_simulation(t_sim *sim)
 	}
 	sim->start = 0;
 	sim->start_time = get_time_ms();
+	sim->simulation_over = 0;
 	if (pthread_mutex_init(&sim->print_mutex, NULL))
 		return (error("Failed to initialize print mutex."));
-	sim->simulation_over = 0;
+	if (pthread_mutex_init(&sim->simulation_mutex, NULL) != 0)
+		return (error("Failed to initialize simulation mutex."));
 	return (0);
 }
 
@@ -46,6 +48,7 @@ int init_coders(t_sim *sim)
 		sim->coders[i].left_dongle = i;
 		sim->coders[i].right_dongle = (i + 1) % sim->number_of_coders;
 		sim->coders[i].general_ref = sim;
+		sim->coders[i].burned_out = 0;
 		if (pthread_mutex_init(&sim->coders[i].state_mutex, NULL) != 0)
 			return (error("Failed to initialize coder mutex."));
 		i++;

@@ -62,10 +62,10 @@ typedef struct s_sim
 	t_dongle		*dongles;
 	t_coder			*coders;
 
-	long			start_time;
-
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	simulation_mutex;
 
+	long			start_time;
 	int				start;
 	int				simulation_over;
 }					t_sim;
@@ -84,19 +84,24 @@ typedef struct s_coder
 
 	int					left_dongle;  //el programador solo puede coger el de la derecha o el de la izq
 	int					right_dongle; //tengo que dtereminar por default cual es el mio
+
+	int					burned_out;
 }						t_coder;
 
 int		parse_arguments(int argc, char **argv, t_sim *sim);
 
-int		take_dongle(t_dongle *dongle);
+int		take_dongle(t_dongle *dongle, long cooldown);
 void	release_dongle(t_dongle *dongle);
 int		take_both_dongles(t_coder *coder);
 void	release_both_dongles(t_coder *coder);
+int		dongle_ready(t_dongle *dongle, long cooldown);
 
 int		validate_arguments(int argc, char **argv);
 int		fill_simulation(char **argv, t_sim *sim);
 
 void	compile(t_coder *coder);
+void	debug(t_coder *coder);
+void	refactor(t_coder *coder);
 
 int		parse_scheduler(char *arg, t_scheduler *scheduler);
 int		is_positive_number(char *str);
@@ -122,7 +127,15 @@ void	precise_sleep(long duration_ms);
 void	*coder_routine(void *arg);
 
 int		start_simulation(t_sim *sim);
+int		all_coders_finished(t_sim *sim);
 
+int		simulation_is_over(t_sim *sim);
+void	set_simulation_over(t_sim *sim);
+
+int		get_compile_counter(t_coder *coder);
+long	get_last_compilation_time(t_coder *coder);
+
+long	time_since_start(t_sim *sim);
 
 #endif
 

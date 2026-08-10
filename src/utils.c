@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:17:40 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/06 18:22:41 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/10 17:27:58 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,3 +67,4 @@ int	ft_strcmp(char *s1, char *s2)
 	}
 	return (0);
 }
+
