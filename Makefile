@@ -9,6 +9,7 @@ SRC =	src/main.c \
 	src/init.c \
 	src/time.c \
 	src/coders/routine.c \
+	src/coders/actions.c \
 	src/sync/dongles.c \
 	src/simulation.c \
 	src/logger.c \

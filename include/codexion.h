@@ -96,6 +96,8 @@ void	release_both_dongles(t_coder *coder);
 int		validate_arguments(int argc, char **argv);
 int		fill_simulation(char **argv, t_sim *sim);
 
+void	compile(t_coder *coder);
+
 int		parse_scheduler(char *arg, t_scheduler *scheduler);
 int		is_positive_number(char *str);
 
