@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:18:22 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/11 17:35:21 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/11 18:28:47 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 void	*coder_routine(void *arg)
 {
 	t_coder		*coder;
-	int			i;
 
-	i = 0;
 	coder = (t_coder *)arg;
 	pthread_mutex_lock(&coder->general_ref->simulation_mutex);
 	while (!coder->general_ref->start)

@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/07 15:42:59 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/11 18:21:44 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/11 18:40:54 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,12 @@ void	compile(t_coder *coder)
 void	debug(t_coder *coder)
 {
 	long	debug_time;
+	t_sim	*sim;
+
+	sim = coder->general_ref;
 	
+	if (simulation_is_over(sim) == 1)
+		return ;
 	log_action(coder, "\033[0;33mis debugging\033[0m");
 	pthread_mutex_lock(&coder->state_mutex);
 	debug_time = coder->general_ref->time_to_debug;
@@ -44,7 +49,12 @@ void	debug(t_coder *coder)
 void	refactor(t_coder *coder)
 {
 	long	refactor_time;
+	t_sim	*sim;
 
+	sim = coder->general_ref;
+	
+	if (simulation_is_over(sim) == 1)
+		return ;
 	log_action(coder, "\033[0;34mis refactoring\033[0m");
 	pthread_mutex_lock(&coder->state_mutex);
 	refactor_time = coder->general_ref->time_to_refactor;

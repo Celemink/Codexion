@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:17:59 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/11 17:48:28 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/11 18:43:26 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,37 +35,14 @@ void	release_dongle(t_dongle *dongle)
 	pthread_mutex_unlock(&dongle->mutex);
 }
 
-/*int	take_both_dongles(t_coder *coder) //version de laureano
-{
-	t_dongle	*left;
-	t_dongle	*right;
-	long		cooldown;
-
-	if (coder->left_dongle == coder->right_dongle)
-		return (0);
-	left = &coder->general_ref->dongles[coder->left_dongle];
-	right = &coder->general_ref->dongles[coder->right_dongle];
-	cooldown = coder->general_ref->dongle_cooldown;
-	if (take_dongle(left, cooldown))
-		log_action(coder, "has taken a dongle");
-	else
-		return (0);
-	if (take_dongle(right, cooldown))
-		log_action(coder, "has taken a dongle");
-	else
-	{
-		release_dongle(left);
-		return (0);
-	}
-	return (1);
-}*/
-
 int	take_both_dongles(t_coder *coder)
 {
 	t_dongle	*left;
 	t_dongle	*right;
+	t_sim		*sim;
 	long		cooldown;
 
+	sim = coder->general_ref;
 	if (coder->left_dongle == coder->right_dongle)
 		return (0);
 	left = &coder->general_ref->dongles[coder->left_dongle];
