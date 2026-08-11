@@ -233,3 +233,17 @@ gettimeofday() DA EN SEGUNDOS desde 1970 epoch inicio de los tiempos para C*/
 //		comando de manera normal, no. Es eso un fallo o es culpa de helgrind?
 
 //2- A veces cuando todo ocurre en el mismo segundo, hay prints debajo del burned out
+
+
+//FALLO DESCUBIERTO CON GUILLE:
+
+//100 coder 1 is debugging
+//111 coder 5 has taken a dongle
+//111 coder 5 has taken a dongle
+//111 coder 5 is compiling
+//111 coder 3 has taken a dongle
+//111 coder 3 has taken a dongle
+//111 coder 3 is compiling
+//120 coder 1 is refactoring
+
+//esto significa que cuando el 1 esta dobugging ya se ha terminado la sim, pero cuando termina debug empiesa refact igualmente???

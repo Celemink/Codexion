@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:17:59 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/11 18:43:26 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/11 18:46:50 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ int	take_both_dongles(t_coder *coder)
 	cooldown = coder->general_ref->dongle_cooldown;
 	if (!take_dongle(left, cooldown))
 		return (0);
-	log_action(coder, "has taken a dongle");
 	if (!take_dongle(right, cooldown))
 	{
 		release_dongle(left);
 		return (0);
 	}
+	log_action(coder, "has taken a dongle");
 	log_action(coder, "has taken a dongle");
 	return (1);
 }
