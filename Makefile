@@ -16,7 +16,11 @@ SRC =	src/main.c \
 	src/destroy.c \
 	src/sync/cooldown.c \
 	src/sync/mutex_utils.c \
-	src/monitor.c
+	src/monitor.c \
+	src/scheduler/fifo.c \
+	src/scheduler/edf.c \
+	src/scheduler/heap.c \
+	src/scheduler/scheduler_types.c
 
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

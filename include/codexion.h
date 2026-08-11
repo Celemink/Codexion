@@ -34,6 +34,13 @@ typedef enum e_scheduler
 	EDF
 }	t_scheduler;
 
+typedef struct s_heap
+{
+	t_coder	**coders;
+	int		size;
+	int		capacity;
+}			t_heap;
+
 typedef enum e_dongle_state
 {
 	AVAILABLE,
@@ -66,6 +73,10 @@ typedef struct s_sim
 
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	simulation_mutex;
+	pthread_mutex_t	scheduler_mutex;
+
+	int				*waiting_queue;
+	int				queue_size;
 
 	long			start_time;
 	int				start;
@@ -78,6 +89,7 @@ typedef struct s_coder
 	int					compile_counter;
 	long				compile_timer;
 	long				last_compilation_timer;
+	long				waiting_since;
 
 	pthread_t			thread;
 	pthread_mutex_t		state_mutex;
@@ -118,7 +130,12 @@ int		init_simulation(t_sim *sim);
 
 int		init_coders(t_sim *sim);
 int		init_dongles(t_sim *sim);
+int		init_scheduler(t_sim *sim);
+int		fifo_has_priority(t_coder *coder);
+void	fifo_start_waiting(t_coder *coder);
 
+
+void	simulation_finisher(t_coder *coder);
 void	log_action(t_coder *coder, char *action);
 
 void	free_simulation(t_sim *sim);
@@ -144,6 +161,16 @@ int		check_coder_burnout(t_coder *coder);
 
 int		is_coder_burned_out(t_coder *coder);
 void	set_coder_burned_out(t_coder *coder);
+
+int		has_scheduler_priority(t_coder *coder);
+int		edf_has_priority(t_coder *coder);
+
+
+void	heap_init(t_heap *heap, int capacity);
+void	heap_destroy(t_heap *heap);
+int		heap_push(t_heap *heap, t_coder *coder);
+t_coder	*heap_pop(t_heap *heap);
+t_coder	*heap_peek(t_heap *heap);
 
 #endif
 

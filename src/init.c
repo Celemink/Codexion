@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:16:50 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/10 17:26:38 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/11 11:18:58 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ int	init_simulation(t_sim *sim)
 	if (init_coders(sim))
 		return (1);
 	if (init_dongles(sim))
+	{
+		free_simulation(sim);
+		return (1);
+	}
+	if (init_scheduler(sim))
 	{
 		free_simulation(sim);
 		return (1);
@@ -45,6 +50,7 @@ int init_coders(t_sim *sim)
 		sim->coders[i].compile_counter = 0;
 		sim->coders[i].compile_timer = 0;
 		sim->coders[i].last_compilation_timer = 0;
+		sim->coders[i].waiting_since = 0; /////////////////////////////
 		sim->coders[i].left_dongle = i;
 		sim->coders[i].right_dongle = (i + 1) % sim->number_of_coders;
 		sim->coders[i].general_ref = sim;
