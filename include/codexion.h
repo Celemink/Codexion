@@ -62,6 +62,8 @@ typedef struct s_sim
 	t_dongle		*dongles;
 	t_coder			*coders;
 
+	pthread_t	monitor_thread;
+
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	simulation_mutex;
 
@@ -136,6 +138,12 @@ int		get_compile_counter(t_coder *coder);
 long	get_last_compilation_time(t_coder *coder);
 
 long	time_since_start(t_sim *sim);
+
+void	*monitor_routine(void *arg);
+int		check_coder_burnout(t_coder *coder);
+
+int		is_coder_burned_out(t_coder *coder);
+void	set_coder_burned_out(t_coder *coder);
 
 #endif
 

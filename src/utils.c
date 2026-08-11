@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:17:40 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/10 17:27:58 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/10 18:18:40 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,3 +68,19 @@ int	ft_strcmp(char *s1, char *s2)
 	return (0);
 }
 
+int	is_coder_burned_out(t_coder *coder)
+{
+	int	result;
+
+	pthread_mutex_lock(&coder->state_mutex);
+	result = coder->burned_out;
+	pthread_mutex_unlock(&coder->state_mutex);
+	return (result);
+}
+
+void	set_coder_burned_out(t_coder *coder)
+{
+	pthread_mutex_lock(&coder->state_mutex);
+	coder->burned_out = 1;
+	pthread_mutex_unlock(&coder->state_mutex);
+}

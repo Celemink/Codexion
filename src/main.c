@@ -26,6 +26,5 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	free_simulation(&sim);
-	write(1, "bien cele", 9);
 	return (0);
 }

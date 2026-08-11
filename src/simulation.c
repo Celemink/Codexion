@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:17:45 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/10 17:29:31 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/10 18:14:06 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,29 @@ int	start_simulation(t_sim *sim)
 	int	i;
 
 	i = 0;
+	sim->start_time = get_time_ms();
+	if (pthread_create(&sim->monitor_thread,
+		NULL,
+		monitor_routine,
+		sim) != 0)
+		return (error("Failed to create monitor thread."));
 	while (i < sim->number_of_coders)
 	{
 		if (pthread_create(&sim->coders[i].thread,
 				NULL,
 				coder_routine,
 				&sim->coders[i]) != 0)
-			return (error("Failed to create thread."));
+			return (error("Failed to create coder thread."));
 		i++;
 	}
-	sim->start_time = get_time_ms();
 	sim->start = 1;
 	i = 0;
 	while (i < sim->number_of_coders)
 	{
 		pthread_join(sim->coders[i].thread, NULL);
 		i++;
-	}	
+	}
+	pthread_join(sim->monitor_thread, NULL);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:18:22 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/10 16:48:36 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/10 19:27:47 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,16 @@ void	*coder_routine(void *arg)
 		if(take_both_dongles(coder))
 		{
 			compile(coder);
+			if (simulation_is_over(coder->general_ref))
+				break;
 			if (all_coders_finished(coder->general_ref))
 			{
 				set_simulation_over(coder->general_ref); //creo que esto es useless
 				break; //MIRAR SIMULATION.C Y BORRAR SI NO SIRVE
 			}
 			debug(coder); //OLD CODE ARRIBA: coder->general_ref->simulation_over = 1;
+			if (simulation_is_over(coder->general_ref))
+				break;
 			refactor(coder);
 		}
 		else

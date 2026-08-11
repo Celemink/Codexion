@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:17:59 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/10 16:11:46 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/10 19:33:05 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,10 @@ int	dongle_ready(t_dongle *dongle, long cooldown)
 	now = get_time_ms();
 	if (dongle->state == AVAILABLE)
 		return(1);
-	if (dongle->state== COOLDOWN && now - dongle->cooldown_start >= cooldown)
+	if (dongle->state == COOLDOWN && now - dongle->cooldown_start >= cooldown)
+	{
+		dongle->state = AVAILABLE;
 		return (1);
+	}
 	return (0);
 }
