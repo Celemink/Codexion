@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/07 15:42:59 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/10 19:17:27 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/11 18:21:44 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void	compile(t_coder *coder)
 {
+	t_sim	*sim;
+
+	sim = coder->general_ref;
 	log_action(coder, "\033[0;32mis compiling\033[0m");
 	pthread_mutex_lock(&coder->state_mutex);
 	coder->last_compilation_timer = time_since_start(coder->general_ref);
@@ -22,17 +25,29 @@ void	compile(t_coder *coder)
 	pthread_mutex_lock(&coder->state_mutex);
 	coder->compile_counter++;
 	pthread_mutex_unlock(&coder->state_mutex);
+	if (coder->compile_counter == sim->number_of_compiles_required)
+		set_simulation_over(sim);
 	release_both_dongles(coder);
 }
 
 void	debug(t_coder *coder)
 {
+	long	debug_time;
+	
 	log_action(coder, "\033[0;33mis debugging\033[0m");
-	precise_sleep(coder->general_ref->time_to_debug);
+	pthread_mutex_lock(&coder->state_mutex);
+	debug_time = coder->general_ref->time_to_debug;
+	pthread_mutex_unlock(&coder->state_mutex);
+	precise_sleep(debug_time);
 }
 
 void	refactor(t_coder *coder)
 {
+	long	refactor_time;
+
 	log_action(coder, "\033[0;34mis refactoring\033[0m");
-	precise_sleep(coder->general_ref->time_to_refactor);
+	pthread_mutex_lock(&coder->state_mutex);
+	refactor_time = coder->general_ref->time_to_refactor;
+	pthread_mutex_unlock(&coder->state_mutex);
+	precise_sleep(refactor_time);
 }

@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/07 15:44:13 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/10 19:20:41 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/11 17:36:17 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,14 @@ void	*monitor_routine(void *arg)
 	int		i;
 
 	sim = (t_sim *)arg;
+	pthread_mutex_lock(&sim->simulation_mutex);
 	while (!sim->start)
+	{
+		pthread_mutex_unlock(&sim->simulation_mutex);
 		precise_sleep(1);
+		pthread_mutex_lock(&sim->simulation_mutex);
+	}
+	pthread_mutex_unlock(&sim->simulation_mutex);
 	while (!simulation_is_over(sim))
 	{
 		i = 0;
@@ -46,24 +52,10 @@ int	check_coder_burnout(t_coder *coder)
 	long	last;
 
 	if (get_compile_counter(coder) == 0)
-		return (0);	
+		return (0);
 	now = time_since_start(coder->general_ref);
 	last = get_last_compilation_time(coder);
 	if (now - last >= coder->general_ref->time_to_burnout)
 		return (1);
 	return (0);
 }
-//GOOD ONE NO GPT
-/*int	check_coder_burnout(t_coder *coder)
-{
-	long	now;
-	long	last;
-
-	if (get_compile_counter(coder) == 0)
-		return (0);
-	now = get_time_ms();
-	last = get_last_compilation_time(coder);
-	if (now - last >= coder->general_ref->time_to_burnout)
-		return (1);
-	return (0);
-}*/

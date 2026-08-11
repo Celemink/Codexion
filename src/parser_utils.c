@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/07 15:44:21 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/07 15:44:26 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/11 12:55:48 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	fill_simulation(char **argv, t_sim *sim)
 	return (0);
 }
 
-int error(char *message)
+int	error(char *message)
 {
 	write(2, "ERROR: ", 7);
 	ft_putendl_fd(message, 2);

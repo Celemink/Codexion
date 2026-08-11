@@ -69,14 +69,11 @@ typedef struct s_sim
 	t_dongle		*dongles;
 	t_coder			*coders;
 
-	pthread_t	monitor_thread;
+	pthread_t		monitor_thread;
 
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	simulation_mutex;
 	pthread_mutex_t	scheduler_mutex;
-
-	int				*waiting_queue;
-	int				queue_size;
 
 	long			start_time;
 	int				start;
@@ -96,8 +93,8 @@ typedef struct s_coder
 
 	t_sim				*general_ref;
 
-	int					left_dongle;  //el programador solo puede coger el de la derecha o el de la izq
-	int					right_dongle; //tengo que dtereminar por default cual es el mio
+	int					left_dongle;
+	int					right_dongle;
 
 	int					burned_out;
 }						t_coder;
@@ -134,7 +131,6 @@ int		init_scheduler(t_sim *sim);
 int		fifo_has_priority(t_coder *coder);
 void	fifo_start_waiting(t_coder *coder);
 
-
 void	simulation_finisher(t_coder *coder);
 void	log_action(t_coder *coder, char *action);
 
@@ -164,13 +160,18 @@ void	set_coder_burned_out(t_coder *coder);
 
 int		has_scheduler_priority(t_coder *coder);
 int		edf_has_priority(t_coder *coder);
+long	coder_deadline(t_coder *coder);
+void	swap_coders(t_coder **a, t_coder **b);
 
-
-void	heap_init(t_heap *heap, int capacity);
+int		heap_init(t_heap *heap, int capacity);
 void	heap_destroy(t_heap *heap);
 int		heap_push(t_heap *heap, t_coder *coder);
 t_coder	*heap_pop(t_heap *heap);
-t_coder	*heap_peek(t_heap *heap);
+t_coder	*heap_check(t_heap *heap);
+int		smallest_checker(int sample, t_heap *heap, int smallest);
+
+int		start_coder_threads(t_sim *sim);
+void	join_coder_threads(t_sim *sim);
 
 #endif
 
@@ -214,3 +215,21 @@ josemi isallnum
 usleep son microseguntos pero  me han pedido milisegundos
 
 gettimeofday() DA EN SEGUNDOS desde 1970 epoch inicio de los tiempos para C*/
+
+
+
+
+
+//HAY QUE HACER OPCION DE UN PHILOSOPHER PORQUE SOLO HAY UN PALILLO
+//SE TIENE QUE PARAR LA EJECUCION SI UN FILOSOFO MUERE / 200 FILOSOFOS EJEMPLO
+//TIENE QUE AVISAR DE CUANDO COGE UN DONGLE
+
+//COGER TENEDOR Y ESPERAR A QUE MUERA EL FILOSOFO - CASI 1 FILOSOFO
+
+
+//DUDAS:
+//1- Al usar valgrind --tool=helgrind ./codexion 20 70 70 70 70 70 70 edf
+//		se queda cogiendo el dongle infinitamente pero al probar el
+//		comando de manera normal, no. Es eso un fallo o es culpa de helgrind?
+
+//2- A veces cuando todo ocurre en el mismo segundo, hay prints debajo del burned out

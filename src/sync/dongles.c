@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:17:59 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/10 19:33:05 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/11 17:48:28 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,51 @@ void	release_dongle(t_dongle *dongle)
 	pthread_mutex_unlock(&dongle->mutex);
 }
 
-int	take_both_dongles(t_coder *coder) //version de laureano
+/*int	take_both_dongles(t_coder *coder) //version de laureano
 {
 	t_dongle	*left;
 	t_dongle	*right;
 	long		cooldown;
 
+	if (coder->left_dongle == coder->right_dongle)
+		return (0);
+	left = &coder->general_ref->dongles[coder->left_dongle];
+	right = &coder->general_ref->dongles[coder->right_dongle];
+	cooldown = coder->general_ref->dongle_cooldown;
+	if (take_dongle(left, cooldown))
+		log_action(coder, "has taken a dongle");
+	else
+		return (0);
+	if (take_dongle(right, cooldown))
+		log_action(coder, "has taken a dongle");
+	else
+	{
+		release_dongle(left);
+		return (0);
+	}
+	return (1);
+}*/
+
+int	take_both_dongles(t_coder *coder)
+{
+	t_dongle	*left;
+	t_dongle	*right;
+	long		cooldown;
+
+	if (coder->left_dongle == coder->right_dongle)
+		return (0);
 	left = &coder->general_ref->dongles[coder->left_dongle];
 	right = &coder->general_ref->dongles[coder->right_dongle];
 	cooldown = coder->general_ref->dongle_cooldown;
 	if (!take_dongle(left, cooldown))
 		return (0);
+	log_action(coder, "has taken a dongle");
 	if (!take_dongle(right, cooldown))
 	{
 		release_dongle(left);
 		return (0);
 	}
+	log_action(coder, "has taken a dongle");
 	return (1);
 }
 
@@ -68,10 +97,10 @@ void	release_both_dongles(t_coder *coder)
 int	dongle_ready(t_dongle *dongle, long cooldown)
 {
 	long	now;
-	
+
 	now = get_time_ms();
 	if (dongle->state == AVAILABLE)
-		return(1);
+		return (1);
 	if (dongle->state == COOLDOWN && now - dongle->cooldown_start >= cooldown)
 	{
 		dongle->state = AVAILABLE;

@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:17:45 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/10 18:14:06 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/11 18:15:05 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,16 @@
 
 int	start_simulation(t_sim *sim)
 {
-	int	i;
-
-	i = 0;
 	sim->start_time = get_time_ms();
-	if (pthread_create(&sim->monitor_thread,
-		NULL,
-		monitor_routine,
-		sim) != 0)
+	if (pthread_create(&sim->monitor_thread, NULL,
+			monitor_routine, sim) != 0)
 		return (error("Failed to create monitor thread."));
-	while (i < sim->number_of_coders)
-	{
-		if (pthread_create(&sim->coders[i].thread,
-				NULL,
-				coder_routine,
-				&sim->coders[i]) != 0)
-			return (error("Failed to create coder thread."));
-		i++;
-	}
+	if (start_coder_threads(sim))
+		return (1);
+	pthread_mutex_lock(&sim->simulation_mutex);
 	sim->start = 1;
-	i = 0;
-	while (i < sim->number_of_coders)
-	{
-		pthread_join(sim->coders[i].thread, NULL);
-		i++;
-	}
+	pthread_mutex_unlock(&sim->simulation_mutex);
+	join_coder_threads(sim);
 	pthread_join(sim->monitor_thread, NULL);
 	return (0);
 }
@@ -68,7 +53,7 @@ int	simulation_is_over(t_sim *sim)
 	return (result);
 }
 
-void	set_simulation_over(t_sim *sim)   //pienso que esto es useless MIRAR INIT.C
+void	set_simulation_over(t_sim *sim)
 {
 	pthread_mutex_lock(&sim->simulation_mutex);
 	sim->simulation_over = 1;

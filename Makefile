@@ -1,6 +1,6 @@
 NAME = codexion
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -I include
+CFLAGS = -Wall -Wextra -Werror -pthread -I include #-fsanitize=thread
 
 SRC =	src/main.c \
 	src/parser.c \
@@ -12,15 +12,15 @@ SRC =	src/main.c \
 	src/coders/actions.c \
 	src/sync/dongles.c \
 	src/simulation.c \
+	src/simulation_utils.c \
 	src/logger.c \
 	src/destroy.c \
-	src/sync/cooldown.c \
 	src/sync/mutex_utils.c \
 	src/monitor.c \
 	src/scheduler/fifo.c \
 	src/scheduler/edf.c \
 	src/scheduler/heap.c \
-	src/scheduler/scheduler_types.c
+	src/scheduler/scheduler_utils.c
 
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:17:15 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/10 17:39:21 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/11 12:57:34 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	precise_sleep(long duration_ms)
 	long	start;
 
 	start = get_time_ms();
-	while(get_time_ms() - start < duration_ms)
+	while (get_time_ms() - start < duration_ms)
 		usleep(500);
 }
 

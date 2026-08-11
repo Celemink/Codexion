@@ -1,39 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   destroy.c                                          :+:      :+:    :+:   */
+/*   simulation_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/07 15:43:47 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/11 12:53:45 by lodazzan         ###   ########.fr       */
+/*   Created: 2026/08/11 15:59:55 by lodazzan          #+#    #+#             */
+/*   Updated: 2026/08/11 16:01:47 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void	free_simulation(t_sim *sim)
+int	start_coder_threads(t_sim *sim)
 {
 	int	i;
 
-	if (sim->coders)
+	i = 0;
+	while (i < sim->number_of_coders)
 	{
-		i = 0;
-		while (i < sim->number_of_coders)
-		{
-			pthread_mutex_destroy(&sim->coders[i].state_mutex);
-			i++;
-		}
-		free(sim->coders);
+		if (pthread_create(&sim->coders[i].thread, NULL,
+				coder_routine, &sim->coders[i]) != 0)
+			return (error("Failed to create coder thread."));
+		i++;
 	}
-	if (sim->dongles)
+	return (0);
+}
+
+void	join_coder_threads(t_sim *sim)
+{
+	int	i;
+
+	i = 0;
+	while (i < sim->number_of_coders)
 	{
-		i = 0;
-		while (i < sim->number_of_coders)
-		{
-			pthread_mutex_destroy(&sim->dongles[i].mutex);
-			i++;
-		}
-		free(sim->dongles);
+		pthread_join(sim->coders[i].thread, NULL);
+		i++;
 	}
 }

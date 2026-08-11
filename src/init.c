@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:16:50 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/11 11:18:58 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/11 15:21:17 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	init_simulation(t_sim *sim)
 	return (0);
 }
 
-int init_coders(t_sim *sim)
+int	init_coders(t_sim *sim)
 {
 	int	i;
 
@@ -50,7 +50,7 @@ int init_coders(t_sim *sim)
 		sim->coders[i].compile_counter = 0;
 		sim->coders[i].compile_timer = 0;
 		sim->coders[i].last_compilation_timer = 0;
-		sim->coders[i].waiting_since = 0; /////////////////////////////
+		sim->coders[i].waiting_since = 0;
 		sim->coders[i].left_dongle = i;
 		sim->coders[i].right_dongle = (i + 1) % sim->number_of_coders;
 		sim->coders[i].general_ref = sim;
@@ -78,5 +78,12 @@ int	init_dongles(t_sim *sim)
 		sim->dongles[i].cooldown_start = 0;
 		i++;
 	}
+	return (0);
+}
+
+int	init_scheduler(t_sim *sim)
+{
+	if (pthread_mutex_init(&sim->scheduler_mutex, NULL) != 0)
+		return (error("Failed to initialize scheduler mutex."));
 	return (0);
 }
