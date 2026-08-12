@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:16:50 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/11 15:21:17 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/12 13:22:48 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	init_simulation(t_sim *sim)
 	return (0);
 }
 
-int	init_coders(t_sim *sim)
+static int	init_coders(t_sim *sim)
 {
 	int	i;
 
@@ -62,7 +62,7 @@ int	init_coders(t_sim *sim)
 	return (0);
 }
 
-int	init_dongles(t_sim *sim)
+static int	init_dongles(t_sim *sim)
 {
 	int	i;
 
@@ -81,7 +81,7 @@ int	init_dongles(t_sim *sim)
 	return (0);
 }
 
-int	init_scheduler(t_sim *sim)
+static int	init_scheduler(t_sim *sim)
 {
 	if (pthread_mutex_init(&sim->scheduler_mutex, NULL) != 0)
 		return (error("Failed to initialize scheduler mutex."));

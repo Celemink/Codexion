@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/07 15:44:13 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/11 17:36:17 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/12 13:23:13 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,14 @@ void	*monitor_routine(void *arg)
 			}
 			i++;
 		}
+		if (all_coders_finished(sim))
+			set_simulation_over(sim);
 		precise_sleep(1);
 	}
 	return (NULL);
 }
 
-int	check_coder_burnout(t_coder *coder)
+static int	check_coder_burnout(t_coder *coder)
 {
 	long	now;
 	long	last;

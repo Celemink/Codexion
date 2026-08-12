@@ -6,13 +6,13 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/07 15:44:21 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/11 12:55:48 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/12 13:25:03 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int	parse_scheduler(char *arg, t_scheduler *scheduler)
+static int	parse_scheduler(char *arg, t_scheduler *scheduler)
 {
 	if (!ft_strcmp(arg, "fifo"))
 		*scheduler = FIFO;
@@ -44,7 +44,7 @@ int	error(char *message)
 	return (1);
 }
 
-int	is_positive_number(char *str)
+static int	is_positive_number(char *str)
 {
 	int	i;
 

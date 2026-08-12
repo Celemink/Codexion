@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:18:22 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/11 18:28:47 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/12 13:26:51 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,20 @@ void	*coder_routine(void *arg)
 	pthread_mutex_unlock(&coder->general_ref->simulation_mutex);
 	while (!simulation_is_over(coder->general_ref))
 	{
-		simulation_finisher(coder);
-		if (!fifo_has_priority(coder))
+		if (get_compile_counter(coder)
+			>= coder->general_ref->number_of_compiles_required)
 			precise_sleep(1);
+		else
+		{
+			simulation_finisher(coder);
+			if (!fifo_has_priority(coder))
+				precise_sleep(1);
+		}
 	}
 	return (NULL);
 }
 
-void	simulation_finisher(t_coder *coder)
+static void	simulation_finisher(t_coder *coder)
 {
 	t_sim	*sim;
 	
@@ -51,11 +57,8 @@ void	simulation_finisher(t_coder *coder)
 			compile(coder);
 			if (simulation_is_over(coder->general_ref))
 				return ;
-			if (all_coders_finished(coder->general_ref))
-			{
-				set_simulation_over(coder->general_ref);
+			if (get_compile_counter(coder) >= sim->number_of_compiles_required)
 				return ;
-			}
 			debug(coder);
 			if (simulation_is_over(coder->general_ref))
 				return ;

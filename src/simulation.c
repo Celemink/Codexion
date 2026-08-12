@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:17:45 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/11 18:15:05 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/12 12:52:21 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ int	simulation_is_over(t_sim *sim)
 
 void	set_simulation_over(t_sim *sim)
 {
+	pthread_mutex_lock(&sim->print_mutex);
 	pthread_mutex_lock(&sim->simulation_mutex);
 	sim->simulation_over = 1;
 	pthread_mutex_unlock(&sim->simulation_mutex);
+	pthread_mutex_unlock(&sim->print_mutex);
 }

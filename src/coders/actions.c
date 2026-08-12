@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/07 15:42:59 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/11 18:40:54 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/12 12:50:07 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	compile(t_coder *coder)
 	pthread_mutex_lock(&coder->state_mutex);
 	coder->compile_counter++;
 	pthread_mutex_unlock(&coder->state_mutex);
-	if (coder->compile_counter == sim->number_of_compiles_required)
-		set_simulation_over(sim);
+	/*if (coder->compile_counter == sim->number_of_compiles_required)
+		set_simulation_over(sim);*/
 	release_both_dongles(coder);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/07 15:43:30 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/11 13:00:11 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/12 14:48:17 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	heap_destroy(t_heap *heap)
 	heap->capacity = 0;
 }
 
-int	heap_push(t_heap *heap, t_coder *coder)
+int	heap_push_edf(t_heap *heap, t_coder *coder)
 {
 	int	index;
 	int	parent;
@@ -53,6 +53,37 @@ int	heap_push(t_heap *heap, t_coder *coder)
 		swap_coders(&heap->coders[parent], &heap->coders[index]);
 		index = parent;
 	}
+	return (0);
+}
+
+int	heap_push(t_heap *heap, t_coder *coder)
+{
+	if (coder->general_ref->scheduler == FIFO)
+		return (heap_push_fifo(heap, coder));
+	if (coder->general_ref->scheduler == EDF)
+		return (heap_push_edf(heap, coder));
+	return (0);
+}
+
+int	heap_push_fifo(t_heap *heap, t_coder *coder)
+{
+	int	index;
+	int	parent;
+
+	if (heap->size >= heap->capacity)
+		return (1);
+	index = heap->size;
+	heap->coders[index] = coder;
+	heap->size++;
+	while (index > 0)
+	{
+		parent = (index - 1) / 2;
+		if (coder_deadline(heap->coders[parent])
+			<= coder_deadline(heap->coders[index]))
+			break ;
+		swap_coders(&heap->coders[parent], &heap->coders[index]);
+		index = parent;
+	} //cuando metes otro lo metes justo detas
 	return (0);
 }
 
