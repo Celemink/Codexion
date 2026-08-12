@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/07 15:42:59 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/12 12:50:07 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/12 17:05:12 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,12 @@ void	compile(t_coder *coder)
 	sim = coder->general_ref;
 	log_action(coder, "\033[0;32mis compiling\033[0m");
 	pthread_mutex_lock(&coder->state_mutex);
-	coder->last_compilation_timer = time_since_start(coder->general_ref);
+	//coder->last_compilation_timer = time_since_start(coder->general_ref);
 	pthread_mutex_unlock(&coder->state_mutex);
 	precise_sleep(coder->general_ref->time_to_compile);
 	pthread_mutex_lock(&coder->state_mutex);
 	coder->compile_counter++;
 	pthread_mutex_unlock(&coder->state_mutex);
-	/*if (coder->compile_counter == sim->number_of_compiles_required)
-		set_simulation_over(sim);*/
 	release_both_dongles(coder);
 }
 
@@ -41,6 +39,7 @@ void	debug(t_coder *coder)
 		return ;
 	log_action(coder, "\033[0;33mis debugging\033[0m");
 	pthread_mutex_lock(&coder->state_mutex);
+	coder->last_compilation_timer = time_since_start(coder->general_ref);
 	debug_time = coder->general_ref->time_to_debug;
 	pthread_mutex_unlock(&coder->state_mutex);
 	precise_sleep(debug_time);

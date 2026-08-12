@@ -18,8 +18,16 @@ int	main(int argc, char **argv)
 
 	if (parse_arguments(argc, argv, &sim))
 		return (1);
+	// printf("PATapata");
 	if (init_simulation(&sim))
 		return (1);
+	if (sim.number_of_coders == 1)
+	{
+		precise_sleep(sim.time_to_burnout);
+		printf("%d coder %d \033[0;31mburned out\033[0m", 
+				sim.time_to_burnout, sim.coders[0]);
+		return (0);
+	}
 	if (start_simulation(&sim))
 	{
 		free_simulation(&sim);
