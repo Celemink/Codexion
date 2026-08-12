@@ -20,6 +20,7 @@ SRC =	src/main.c \
 	src/scheduler/fifo.c \
 	src/scheduler/edf.c \
 	src/scheduler/heap.c \
+	src/scheduler/heap_push.c \
 	src/scheduler/scheduler_utils.c
 
 OBJ_DIR = obj
@@ -35,9 +36,6 @@ WHITE  = \033[1;37m
 RESET  = \033[0m
 
 all: $(NAME)
-
-#$(PRINTF):
-#make -C codexion
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)

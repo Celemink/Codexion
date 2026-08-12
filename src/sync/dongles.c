@@ -6,11 +6,26 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:17:59 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/12 13:30:37 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/12 15:46:44 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+
+static int	dongle_ready(t_dongle *dongle, long cooldown)
+{
+	long	now;
+
+	now = get_time_ms();
+	if (dongle->state == AVAILABLE)
+		return (1);
+	if (dongle->state == COOLDOWN && now - dongle->cooldown_start >= cooldown)
+	{
+		dongle->state = AVAILABLE;
+		return (1);
+	}
+	return (0);
+}
 
 static int	take_dongle(t_dongle *dongle, long cooldown)
 {
@@ -69,19 +84,4 @@ void	release_both_dongles(t_coder *coder)
 	right = &coder->general_ref->dongles[coder->right_dongle];
 	release_dongle(left);
 	release_dongle(right);
-}
-
-static int	dongle_ready(t_dongle *dongle, long cooldown)
-{
-	long	now;
-
-	now = get_time_ms();
-	if (dongle->state == AVAILABLE)
-		return (1);
-	if (dongle->state == COOLDOWN && now - dongle->cooldown_start >= cooldown)
-	{
-		dongle->state = AVAILABLE;
-		return (1);
-	}
-	return (0);
 }

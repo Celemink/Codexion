@@ -25,6 +25,8 @@
 # include <sys/time.h>
 # include <limits.h>
 
+typedef struct s_coder	t_coder;
+
 typedef enum e_scheduler
 {
 	FIFO,
@@ -72,6 +74,8 @@ typedef struct s_sim
 	pthread_mutex_t	simulation_mutex;
 	pthread_mutex_t	scheduler_mutex;
 
+	t_heap			sched_heap;
+
 	long			start_time;
 	int				start;
 	int				simulation_over;
@@ -102,37 +106,37 @@ typedef struct s_coder
 void	free_simulation(t_sim *sim);
 
 //init.c
+//static int		init_coders(t_sim *sim);
+//static int		init_dongles(t_sim *sim);
+//static int		init_scheduler(t_sim *sim);
 int		init_simulation(t_sim *sim);
-static int		init_coders(t_sim *sim);
-static int		init_dongles(t_sim *sim);
-static int		init_scheduler(t_sim *sim);
 
 //logger.c
 void	log_action(t_coder *coder, char *action);
 
 //monitor.c
+//static int		check_coder_burnout(t_coder *coder);
 void	*monitor_routine(void *arg);
-static int		check_coder_burnout(t_coder *coder);
 
 //parser_utils.c
-static int		parse_scheduler(char *arg, t_scheduler *scheduler);
+//static int		parse_scheduler(char *arg, t_scheduler *scheduler);
 int		fill_simulation(char **argv, t_sim *sim);
 int		error(char *message);
-static int		is_positive_number(char *str);
+//static int		is_positive_number(char *str);
 int		validate_arguments(int argc, char **argv);
 
 //parser.c
 int		parse_arguments(int argc, char **argv, t_sim *sim);
+
+//simulation_utils.c
+int		start_coder_threads(t_sim *sim);
+void	join_coder_threads(t_sim *sim);
 
 //simulation.c
 int		start_simulation(t_sim *sim);
 int		all_coders_finished(t_sim *sim);
 int		simulation_is_over(t_sim *sim);
 void	set_simulation_over(t_sim *sim);
-
-//simulation_utils.c
-int		start_coder_threads(t_sim *sim);
-void	join_coder_threads(t_sim *sim);
 
 //time.c
 long	get_time_ms(void);
@@ -154,8 +158,8 @@ void	debug(t_coder *coder);
 void	refactor(t_coder *coder);
 
 //routine.c
+//static void	simulation_finisher(t_coder *coder);
 void	*coder_routine(void *arg);
-static void	simulation_finisher(t_coder *coder);
 
 //FOLDER - SCHEDULER ///////////////////////////////////
 
@@ -166,27 +170,33 @@ int		edf_has_priority(t_coder *coder);
 int		fifo_has_priority(t_coder *coder);
 void	fifo_start_waiting(t_coder *coder);
 
-//heap.c  I DONT USE THESE WTF
+//heap_push.c
+//static int		heap_push_edf(t_heap *heap, t_coder *coder);
+//static int		heap_push_fifo(t_heap *heap, t_coder *coder);
+int		heap_push(t_heap *heap, t_coder *coder);
+
+//heap.c
 int		heap_init(t_heap *heap, int capacity);
 void	heap_destroy(t_heap *heap);
-int		heap_push(t_heap *heap, t_coder *coder);
-t_coder	*heap_pop(t_heap *heap);
+void	swap_coders(t_coder **a, t_coder **b);
 t_coder	*heap_check(t_heap *heap);
+//static t_coder	*heap_pop(t_heap *heap);
 
 //scheduler_utils.c
+//static void	build_waiting_heap(t_sim *sim);
 int		has_scheduler_priority(t_coder *coder);
 long	coder_deadline(t_coder *coder);
-void	swap_coders(t_coder **a, t_coder **b);
+//static long	coder_timer(t_coder *coder);
 int		smallest_checker(int sample, t_heap *heap, int smallest);
 
 //FOLDER - SYNC ///////////////////////////////////
 
 //dongles.c
-static int		take_dongle(t_dongle *dongle, long cooldown);
-static void	release_dongle(t_dongle *dongle);
+//static int		dongle_ready(t_dongle *dongle, long cooldown);
+//static int		take_dongle(t_dongle *dongle, long cooldown);
+//static void	release_dongle(t_dongle *dongle);
 int		take_both_dongles(t_coder *coder);
 void	release_both_dongles(t_coder *coder);
-static int		dongle_ready(t_dongle *dongle, long cooldown);
 
 //mutex_utils.c
 int		get_compile_counter(t_coder *coder);

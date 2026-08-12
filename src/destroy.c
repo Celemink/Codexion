@@ -16,6 +16,7 @@ void	free_simulation(t_sim *sim)
 {
 	int	i;
 
+	heap_destroy(&sim->sched_heap);
 	if (sim->coders)
 	{
 		i = 0;

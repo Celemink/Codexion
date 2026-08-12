@@ -6,35 +6,11 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:16:50 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/12 13:22:48 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/12 15:45:33 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-
-int	init_simulation(t_sim *sim)
-{
-	if (init_coders(sim))
-		return (1);
-	if (init_dongles(sim))
-	{
-		free_simulation(sim);
-		return (1);
-	}
-	if (init_scheduler(sim))
-	{
-		free_simulation(sim);
-		return (1);
-	}
-	sim->start = 0;
-	sim->start_time = get_time_ms();
-	sim->simulation_over = 0;
-	if (pthread_mutex_init(&sim->print_mutex, NULL))
-		return (error("Failed to initialize print mutex."));
-	if (pthread_mutex_init(&sim->simulation_mutex, NULL) != 0)
-		return (error("Failed to initialize simulation mutex."));
-	return (0);
-}
 
 static int	init_coders(t_sim *sim)
 {
@@ -85,5 +61,31 @@ static int	init_scheduler(t_sim *sim)
 {
 	if (pthread_mutex_init(&sim->scheduler_mutex, NULL) != 0)
 		return (error("Failed to initialize scheduler mutex."));
+	if (heap_init(&sim->sched_heap, sim->number_of_coders) != 0)
+		return (error("Failed to initialize scheduler heap."));
+	return (0);
+}
+
+int	init_simulation(t_sim *sim)
+{
+	if (init_coders(sim))
+		return (1);
+	if (init_dongles(sim))
+	{
+		free_simulation(sim);
+		return (1);
+	}
+	if (init_scheduler(sim))
+	{
+		free_simulation(sim);
+		return (1);
+	}
+	sim->start = 0;
+	sim->start_time = get_time_ms();
+	sim->simulation_over = 0;
+	if (pthread_mutex_init(&sim->print_mutex, NULL))
+		return (error("Failed to initialize print mutex."));
+	if (pthread_mutex_init(&sim->simulation_mutex, NULL) != 0)
+		return (error("Failed to initialize simulation mutex."));
 	return (0);
 }

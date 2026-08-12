@@ -6,11 +6,25 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/07 15:44:13 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/12 13:23:13 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/12 15:47:09 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+
+static int	check_coder_burnout(t_coder *coder)
+{
+	long	now;
+	long	last;
+
+	if (get_compile_counter(coder) == 0)
+		return (0);
+	now = time_since_start(coder->general_ref);
+	last = get_last_compilation_time(coder);
+	if (now - last >= coder->general_ref->time_to_burnout)
+		return (1);
+	return (0);
+}
 
 void	*monitor_routine(void *arg)
 {
@@ -46,18 +60,4 @@ void	*monitor_routine(void *arg)
 		precise_sleep(1);
 	}
 	return (NULL);
-}
-
-static int	check_coder_burnout(t_coder *coder)
-{
-	long	now;
-	long	last;
-
-	if (get_compile_counter(coder) == 0)
-		return (0);
-	now = time_since_start(coder->general_ref);
-	last = get_last_compilation_time(coder);
-	if (now - last >= coder->general_ref->time_to_burnout)
-		return (1);
-	return (0);
 }
