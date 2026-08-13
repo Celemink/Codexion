@@ -6,7 +6,7 @@
 /*   By: lodazzan <lodazzan@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/06 13:18:22 by lodazzan          #+#    #+#             */
-/*   Updated: 2026/08/12 15:46:02 by lodazzan         ###   ########.fr       */
+/*   Updated: 2026/08/13 12:36:11 by lodazzan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	simulation_finisher(t_coder *coder)
 {
 	t_sim	*sim;
-	
+
 	sim = coder->general_ref;
 	if (!coder->waiting_since)
 		fifo_start_waiting(coder);

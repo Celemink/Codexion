@@ -116,6 +116,7 @@ void	log_action(t_coder *coder, char *action);
 
 //monitor.c
 //static int		check_coder_burnout(t_coder *coder);
+//static void	wait_for_simulation_start(t_sim *sim);
 void	*monitor_routine(void *arg);
 
 //parser_utils.c
@@ -203,76 +204,3 @@ int		get_compile_counter(t_coder *coder);
 long	get_last_compilation_time(t_coder *coder);
 
 #endif
-
-//N threads = N filosofos (tantos threads como filosofos haya)
-
-//· pthread_t - LA CAJA
-//	Crea el hueco donde va a haber un thread
-
-//· pthread_create - EL EJECUTOR
-//	Pone a trabajar el hilo
-
-//	PARÁMETROS QUE RECIBE
-//	pthread_create(&hilo, NULL, funcion, argumento)
-//		1- &HILO
-//			Referencia al hilo ya creado
-//		2- NULL
-//			Modificadores de la función (no usado en Codexion)
-//		3- FUNCION
-//			El trabajo tiene que hacer el hilo
-//		4- ARGUMENTO
-//			Normalmente, la estructura del simulador general, o partes de él
-
-//· pthread_mutex_t - EL SEMAFORO
-//	Impide que varios hilos actuen en el mismo codigo a la vez
-
-//	ESTRUCTURA
-//	pthread_mutex_t nombre_del_mutex;
-
-/*cada filosofo es un hilo de ejecución
-
-compilar es comer, co
-
-mutex recursos compartidos entre hilos
-
-hilos com se inician
-
-data race, race condition
-
-josemi isallnum
-
-usleep son microseguntos pero  me han pedido milisegundos
-
-gettimeofday() DA EN SEGUNDOS desde 1970 epoch inicio de los tiempos para C*/
-
-
-
-
-
-//HAY QUE HACER OPCION DE UN PHILOSOPHER PORQUE SOLO HAY UN PALILLO
-//SE TIENE QUE PARAR LA EJECUCION SI UN FILOSOFO MUERE / 200 FILOSOFOS EJEMPLO
-//TIENE QUE AVISAR DE CUANDO COGE UN DONGLE
-
-//COGER TENEDOR Y ESPERAR A QUE MUERA EL FILOSOFO - CASI 1 FILOSOFO
-
-
-//DUDAS:
-//1- Al usar valgrind --tool=helgrind ./codexion 20 70 70 70 70 70 70 edf
-//		se queda cogiendo el dongle infinitamente pero al probar el
-//		comando de manera normal, no. Es eso un fallo o es culpa de helgrind?
-
-//2- A veces cuando todo ocurre en el mismo segundo, hay prints debajo del burned out
-
-
-//FALLO DESCUBIERTO CON GUILLE:
-
-//100 coder 1 is debugging
-//111 coder 5 has taken a dongle
-//111 coder 5 has taken a dongle
-//111 coder 5 is compiling
-//111 coder 3 has taken a dongle
-//111 coder 3 has taken a dongle
-//111 coder 3 is compiling
-//120 coder 1 is refactoring
-
-//esto significa que cuando el 1 esta dobugging ya se ha terminado la sim, pero cuando termina debug empiesa refact igualmente???
