@@ -1,6 +1,6 @@
 NAME = codexion
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -I include #-fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -pthread -I include
 
 SRC =	src/main.c \
 	src/parser.c \
